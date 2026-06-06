@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Admin – Gota Que Cura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --sidebar-bg: #0f2e0f;
+      --sidebar-hover: #1a5c1a;
+      --sidebar-active: #2e8b2e;
+      --green: #2e8b2e;
+      --green-light: #4caf50;
+      --gold: #c8952a;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a202c;
+      --muted: #718096;
+      --danger: #e53e3e;
+      --success: #38a169;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f2e0f 0%, #1a4a1a 100%);
+      padding: 20px;
+    }
+    .login-card {
+      background: #fff; border-radius: 20px; padding: 48px 40px;
+      width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,.3);
+    }
+    .login-logo { text-align: center; margin-bottom: 32px; }
+    .login-logo .icon { font-size: 3rem; display: block; margin-bottom: 8px; }
+    .login-logo h1 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--green); }
+    .login-logo p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+    .login-card label { display: block; font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .login-card input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: .95rem; font-family: 'Inter', sans-serif; margin-bottom: 18px;
+      transition: border-color .2s; outline: none;
+    }
+    .login-card input:focus { border-color: var(--green-light); }
+    .login-card .field-hint { font-size: .75rem; color: var(--muted); margin-top: -12px; margin-bottom: 18px; line-height: 1.5; }
+    .login-card .field-hint a { color: var(--green); text-decoration: none; }
+    .btn-primary {
+      width: 100%; padding: 14px; background: var(--green); color: #fff; border: none;
+      border-radius: 10px; font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; transition: background .2s, transform .1s;
+    }
+    .btn-primary:hover { background: var(--sidebar-hover); }
+    .btn-primary:active { transform: scale(.98); }
+    #login-error { color: var(--danger); font-size: .82rem; margin-top: 12px; text-align: center; display: none; }
+    .login-default-info {
+      background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 8px;
+      padding: 12px 14px; font-size: .78rem; color: #276749; margin-bottom: 20px; line-height: 1.5;
+    }
+
+    /* ── ADMIN LAYOUT ── */
+    #admin-app { display: none; min-height: 100vh; }
+    .app-layout { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    #sidebar {
+      width: 240px; background: var(--sidebar-bg); color: #fff;
+      display: flex; flex-direction: column; flex-shrink: 0;
+      position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sidebar-logo .s-icon { font-size: 1.8rem; }
+    .sidebar-logo .s-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; line-height: 1.2; }
+    .sidebar-logo .s-sub { font-size: .7rem; color: rgba(255,255,255,.5); }
+    nav { padding: 16px 12px; flex: 1; }
+    .nav-item {
+      width: 100%; text-align: left; background: none; border: none;
+      color: rgba(255,255,255,.75); font-size: .88rem; font-family: 'Inter', sans-serif;
+      padding: 11px 14px; border-radius: 8px; cursor: pointer; display: flex;
+      align-items: center; gap: 10px; margin-bottom: 2px;
+      transition: background .15s, color .15s;
+    }
+    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
+    .nav-item.active { background: var(--sidebar-active); color: #fff; font-weight: 600; }
+    .nav-divider { height: 1px; background: rgba(255,255,255,.1); margin: 10px 0; }
+    .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,.1); }
+    .btn-logout {
+      width: 100%; padding: 10px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.7);
+      border: none; border-radius: 8px; font-size: .82rem; cursor: pointer;
+      transition: background .15s; font-family: 'Inter', sans-serif;
+    }
+    .btn-logout:hover { background: rgba(229,62,62,.3); color: #fff; }
+
+    /* MAIN */
+    #main-content { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .topbar-admin {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 16px 28px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-publish {
+      background: var(--green); color: #fff; border: none; padding: 10px 22px;
+      border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: .88rem; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: background .2s; box-shadow: 0 2px 8px rgba(46,139,46,.3);
+    }
+    .btn-publish:hover { background: var(--sidebar-hover); }
+    .btn-publish:disabled { background: #a0aec0; box-shadow: none; cursor: not-allowed; }
+    .btn-preview {
+      background: #fff; color: var(--text); border: 1.5px solid var(--border);
+      padding: 10px 18px; border-radius: 8px; font-size: .88rem; cursor: pointer;
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: border-color .2s; font-family: 'Inter', sans-serif; font-weight: 500;
+    }
+    .btn-preview:hover { border-color: var(--green-light); color: var(--green); }
+    #content-area { padding: 28px; flex: 1; }
+
+    /* SECTIONS */
+    .section-panel { display: none; }
+    .section-panel.active { display: block; }
+    .panel-header { margin-bottom: 24px; }
+    .panel-header h2 { font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+    .panel-header p { color: var(--muted); font-size: .88rem; }
+
+    /* CARDS */
+    .card {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      padding: 24px; margin-bottom: 20px;
+    }
+    .card-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem;
+      margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .9rem; font-family: 'Inter', sans-serif; color: var(--text); outline: none;
+      transition: border-color .2s; background: #fff;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--green-light); }
+    .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .form-group .hint { font-size: .75rem; color: var(--muted); margin-top: 5px; }
+    .form-group .prefix { display: flex; }
+    .form-group .prefix span {
+      padding: 10px 12px; background: var(--bg); border: 1.5px solid var(--border);
+      border-right: none; border-radius: 8px 0 0 8px; font-size: .88rem; color: var(--muted);
+      white-space: nowrap;
+    }
+    .form-group .prefix input { border-radius: 0 8px 8px 0; }
+
+    /* PRICE CARDS EDITOR */
+    .price-editor { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .price-editor-card { background: var(--bg); border-radius: 10px; padding: 18px; border: 1.5px solid var(--border); }
+    .price-editor-card h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .85rem; margin-bottom: 14px; color: var(--green); }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .toggle-row label { font-size: .82rem; font-weight: 600; }
+    .toggle { position: relative; width: 42px; height: 24px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: #cbd5e0; border-radius: 24px; transition: background .2s;
+    }
+    .toggle-slider::before {
+      content: ''; position: absolute; height: 18px; width: 18px;
+      left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: transform .2s;
+    }
+    .toggle input:checked + .toggle-slider { background: var(--green); }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+    /* TESTIMONIALS */
+    .testimonial-editor { display: flex; flex-direction: column; gap: 16px; }
+    .t-card { background: var(--bg); border-radius: 10px; padding: 18px; border: 1.5px solid var(--border); }
+    .t-card h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .85rem; color: var(--green); margin-bottom: 14px; }
+
+    /* IMAGES */
+    .image-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 32px 20px;
+      text-align: center; cursor: pointer; transition: border-color .2s, background .2s;
+      position: relative; overflow: hidden;
+    }
+    .image-upload-area:hover { border-color: var(--green-light); background: #f0fff4; }
+    .image-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .image-upload-area .up-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .image-upload-area p { color: var(--muted); font-size: .88rem; margin-bottom: 4px; }
+    .image-upload-area .up-hint { font-size: .75rem; color: #a0aec0; }
+    .image-preview { width: 100%; max-height: 220px; object-fit: contain; border-radius: 8px; margin-top: 14px; display: none; }
+    .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-top: 16px; }
+    .img-thumb {
+      border-radius: 8px; overflow: hidden; border: 1.5px solid var(--border);
+      position: relative; background: var(--bg);
+    }
+    .img-thumb img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .img-thumb .img-name { font-size: .72rem; color: var(--muted); padding: 6px 8px; }
+    .img-thumb .btn-use {
+      width: calc(100% - 12px); margin: 0 6px 6px; padding: 6px; background: var(--green);
+      color: #fff; border: none; border-radius: 6px; font-size: .72rem; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+    }
+    .img-thumb .btn-use:hover { background: var(--sidebar-hover); }
+    .img-thumb .btn-del {
+      position: absolute; top: 6px; right: 6px; background: rgba(229,62,62,.85);
+      color: #fff; border: none; border-radius: 6px; width: 24px; height: 24px;
+      font-size: .75rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* CONFIG */
+    .config-section { margin-bottom: 28px; }
+    .config-section h3 { font-family: 'Montserrat', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+    .btn-danger {
+      background: var(--danger); color: #fff; border: none; padding: 10px 18px;
+      border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background .2s;
+    }
+    .btn-danger:hover { background: #c53030; }
+    .btn-secondary {
+      background: var(--bg); color: var(--text); border: 1.5px solid var(--border);
+      padding: 10px 18px; border-radius: 8px; font-size: .85rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: border-color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--green-light); color: var(--green); }
+    .token-field { position: relative; }
+    .token-field input { padding-right: 44px; }
+    .token-toggle {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--muted);
+    }
+    .alert-info {
+      background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px;
+      padding: 12px 14px; font-size: .82rem; color: #2b6cb0; margin-bottom: 16px; line-height: 1.5;
+    }
+    .alert-success {
+      background: #f0fff4; border: 1px solid #c6f6d5;
+      border-radius: 8px; padding: 12px 14px; font-size: .82rem; color: #276749;
+      margin-bottom: 16px; line-height: 1.5;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      background: #1a202c; color: #fff; padding: 12px 22px; border-radius: 10px;
+      font-size: .88rem; font-weight: 500; z-index: 9999; opacity: 0;
+      transition: opacity .3s, transform .3s; pointer-events: none;
+      transform: translateX(-50%) translateY(10px);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.success { background: var(--success); }
+    #toast.error { background: var(--danger); }
+
+    /* SPINNER */
+    .spinner {
+      width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.4);
+      border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MOBILE */
+    @media(max-width: 768px) {
+      #sidebar { transform: translateX(-100%); transition: transform .3s; }
+      #sidebar.open { transform: translateX(0); }
+      #main-content { margin-left: 0; }
+      .menu-toggle {
+        display: flex !important; align-items: center; justify-content: center;
+        width: 38px; height: 38px; background: var(--bg); border: 1.5px solid var(--border);
+        border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+      }
+      #sidebar-overlay {
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 99;
+      }
+      #sidebar-overlay.show { display: block; }
+    }
+    .menu-toggle { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="icon">🌿</span>
+      <h1>Gota Que Cura</h1>
+      <p>Painel de Administração</p>
+    </div>
+    <div class="login-default-info">
+      🔑 <strong>Senha padrão:</strong> <code>gota2024</code><br>
+      Você pode alterar a senha depois de entrar em <em>Configurações</em>.
+    </div>
+    <div class="form-group">
+      <label>Senha de Acesso</label>
+      <input type="password" id="input-password" placeholder="Digite sua senha" />
+    </div>
+    <div class="form-group">
+      <label>Token do GitHub <span style="color:#e53e3e">*</span></label>
+      <input type="password" id="input-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+      <p class="field-hint">
+        Necessário para salvar alterações.
+        <a href="https://github.com/settings/tokens/new?scopes=repo&description=GotaQueCura+Admin" target="_blank">Clique aqui para gerar seu token</a>
+        (marque a opção <strong>repo</strong>).
+      </p>
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Entrar no Painel</button>
+    <div id="login-error">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ── ADMIN APP ── -->
+<div id="admin-app">
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div class="sidebar-logo">
+        <span class="s-icon">🌿</span>
+        <div>
+          <div class="s-name">Gota Que Cura</div>
+          <div class="s-sub">Admin Panel</div>
+        </div>
+      </div>
+      <nav>
+        <button class="nav-item active" onclick="showSection('geral', this)">🏠 &nbsp;Geral</button>
+        <button class="nav-item" onclick="showSection('textos', this)">✏️ &nbsp;Textos</button>
+        <button class="nav-item" onclick="showSection('precos', this)">💰 &nbsp;Preços</button>
+        <button class="nav-item" onclick="showSection('depoimentos', this)">⭐ &nbsp;Depoimentos</button>
+        <button class="nav-item" onclick="showSection('imagens', this)">🖼️ &nbsp;Imagens</button>
+        <div class="nav-divider"></div>
+        <button class="nav-item" onclick="showSection('config', this)">⚙️ &nbsp;Configurações</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="doLogout()">← Sair</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+      <div class="topbar-admin">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="menu-toggle" id="menu-toggle" onclick="toggleSidebar()">☰</button>
+          <span class="topbar-title" id="topbar-title">Geral</span>
+        </div>
+        <div class="topbar-actions">
+          <a href="./index.html" target="_blank" class="btn-preview">👁 Ver Site</a>
+          <button class="btn-publish" id="btn-publish" onclick="publishChanges()">
+            <span id="publish-label">🚀 Publicar</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="content-area">
+
+        <!-- GERAL -->
+        <div class="section-panel active" id="sec-geral">
+          <div class="panel-header">
+            <h2>🏠 Configurações Gerais</h2>
+            <p>Número do WhatsApp e informações principais do site.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">📱 WhatsApp para Pedidos</div>
+            <div class="form-group">
+              <label>Número do WhatsApp (com DDI e DDD)</label>
+              <div class="prefix">
+                <span>+</span>
+                <input type="text" id="g-whatsapp" placeholder="5511999999999" maxlength="20" />
+              </div>
+              <p class="hint">Ex: 5511999998888 &nbsp;(55 = Brasil, 11 = São Paulo, número)</p>
+            </div>
+            <div id="wpp-preview" style="font-size:.82rem;color:#2e8b2e;margin-top:-8px"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">🏷️ Configurações do Repositório GitHub</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Usuário GitHub</label>
+                <input type="text" id="g-owner" value="fabricadenicho" />
+              </div>
+              <div class="form-group">
+                <label>Nome do Repositório</label>
+                <input type="text" id="g-repo" value="gota-que-cura" />
+              </div>
+            </div>
+            <p class="hint" style="margin-top:-8px">Não altere a menos que tenha movido o repositório.</p>
+          </div>
+        </div>
+
+        <!-- TEXTOS -->
+        <div class="section-panel" id="sec-textos">
+          <div class="panel-header">
+            <h2>✏️ Textos da Página</h2>
+            <p>Edite os textos principais que aparecem no topo da página.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🏷️ Banner de Atenção</div>
+            <div class="form-group">
+              <label>Texto do Badge (frase de impacto)</label>
+              <input type="text" id="t-badge" value="⚠️ Ferida que não cicatriza?" maxlength="80" />
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🎯 Título Principal (Hero)</div>
+            <div class="form-group">
+              <label>Primeira linha do título</label>
+              <input type="text" id="t-title1" value="Chega de ferida aberta que não cura." />
+            </div>
+            <div class="form-group">
+              <label>Segunda linha do título (em destaque)</label>
+              <input type="text" id="t-title2" value="A solução natural chegou." />
+            </div>
+            <div class="form-group">
+              <label>Subtítulo (descrição do produto)</label>
+              <textarea id="t-subtitle" rows="3">Gota Que Cura é o cicatrizante fitoterápico com Jucá e Própolis de Abelhas Nativas — ação antibacteriana, anti-inflamatória e antifúngica em uma única gota.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREÇOS -->
+        <div class="section-panel" id="sec-precos">
+          <div class="panel-header">
+            <h2>💰 Tabela de Preços</h2>
+            <p>Configure os 3 planos/produtos exibidos na seção de compra.</p>
+          </div>
+          <div class="card">
+            <div class="price-editor" id="price-editor">
+              <!-- Gerado por JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- DEPOIMENTOS -->
+        <div class="section-panel" id="sec-depoimentos">
+          <div class="panel-header">
+            <h2>⭐ Depoimentos</h2>
+            <p>Edite os depoimentos de clientes exibidos na página.</p>
+          </div>
+          <div class="card">
+            <div class="testimonial-editor" id="testimonial-editor">
+              <!-- Gerado por JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGENS -->
+        <div class="section-panel" id="sec-imagens">
+          <div class="panel-header">
+            <h2>🖼️ Gerenciar Imagens</h2>
+            <p>Faça upload de imagens para usar no site. As imagens são salvas no repositório GitHub.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">📦 Imagem do Produto</div>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:14px">Esta imagem substitui o desenho animado do frasco na seção do produto.</p>
+            <div class="image-upload-area" id="product-upload-area">
+              <input type="file" id="product-img-file" accept="image/*" onchange="previewImage(this, 'product-img-preview', 'product-img-name')" />
+              <div class="up-icon">📷</div>
+              <p>Clique para selecionar a imagem do produto</p>
+              <p class="up-hint">JPG, PNG, WEBP — máx. 5MB</p>
+              <img id="product-img-preview" class="image-preview" alt="Preview" />
+            </div>
+            <div id="product-img-name" style="font-size:.78rem;color:var(--muted);margin-top:8px"></div>
+            <button onclick="uploadProductImage()" class="btn-secondary" style="margin-top:12px">⬆️ Enviar Imagem do Produto</button>
+            <div id="current-product-img" style="margin-top:14px"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🗂️ Galeria de Imagens Enviadas</div>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:14px">Todas as imagens que você enviou para o site.</p>
+            <button onclick="loadGallery()" class="btn-secondary">🔄 Atualizar Galeria</button>
+            <div class="image-grid" id="image-gallery">
+              <p style="font-size:.82rem;color:var(--muted);margin-top:12px">Clique em "Atualizar Galeria" para ver as imagens.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIG -->
+        <div class="section-panel" id="sec-config">
+          <div class="panel-header">
+            <h2>⚙️ Configurações de Segurança</h2>
+            <p>Altere sua senha e o Token do GitHub.</p>
+          </div>
+          <div class="card">
+            <div class="config-section">
+              <h3>🔑 Alterar Senha do Admin</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Nova Senha</label>
+                  <input type="password" id="cfg-new-password" placeholder="Nova senha..." />
+                </div>
+                <div class="form-group">
+                  <label>Confirmar Senha</label>
+                  <input type="password" id="cfg-confirm-password" placeholder="Repita a senha..." />
+                </div>
+              </div>
+              <button class="btn-secondary" onclick="changePassword()">Salvar Nova Senha</button>
+            </div>
+            <div class="config-section" style="border-top:1px solid var(--border);padding-top:24px">
+              <h3>🔐 Token do GitHub</h3>
+              <div class="alert-info">
+                O token é salvo apenas neste navegador. Se limpar os dados do navegador, precisará inserir novamente ao fazer login.
+              </div>
+              <div class="form-group">
+                <label>Token Atual</label>
+                <div class="token-field">
+                  <input type="password" id="cfg-token" readonly />
+                  <button class="token-toggle" onclick="toggleTokenVis()">👁</button>
+                </div>
+              </div>
+              <button class="btn-secondary" onclick="updateToken()">Atualizar Token</button>
+            </div>
+            <div class="config-section" style="border-top:1px solid var(--border);padding-top:24px">
+              <h3>🚪 Sessão</h3>
+              <button class="btn-danger" onclick="doLogout()">Sair do Painel Admin</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content-area -->
+    </div><!-- /main-content -->
+  </div><!-- /app-layout -->
+</div><!-- /admin-app -->
+
+<div id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────
+let githubToken = '';
+let cfg = {};
+
+// ─── SHA-256 ─────────────────────────────────────────────────────
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  if (!localStorage.getItem('adminPasswordHash')) {
+    localStorage.setItem('adminPasswordHash', await sha256('gota2024'));
+  }
+  document.getElementById('input-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('input-token').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('g-whatsapp').addEventListener('input', updateWppPreview);
+});
+
+// ─── AUTH ─────────────────────────────────────────────────────────
+async function doLogin() {
+  const pass = document.getElementById('input-password').value;
+  const token = document.getElementById('input-token').value.trim();
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  if (!pass || !token) { errEl.textContent = 'Preencha a senha e o Token do GitHub.'; errEl.style.display = 'block'; return; }
+
+  const hash = await sha256(pass);
+  if (hash !== localStorage.getItem('adminPasswordHash')) {
+    errEl.textContent = 'Senha incorreta. Tente novamente.'; errEl.style.display = 'block'; return;
+  }
+
+  githubToken = token;
+  sessionStorage.setItem('ghToken', token);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-app').style.display = 'block';
+  document.getElementById('cfg-token').value = token;
+  await loadConfig();
+}
+
+function doLogout() {
+  sessionStorage.removeItem('ghToken');
+  githubToken = '';
+  document.getElementById('admin-app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('input-password').value = '';
+  document.getElementById('input-token').value = '';
+}
+
+// ─── SIDEBAR ──────────────────────────────────────────────────────
+function showSection(name, btn) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  const titles = { geral:'Geral', textos:'Textos', precos:'Preços', depoimentos:'Depoimentos', imagens:'Imagens', config:'Configurações' };
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  if (window.innerWidth < 768) closeSidebar();
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────
+function showToast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  setTimeout(() => { el.className = ''; }, 3500);
+}
+
+// ─── GITHUB API ───────────────────────────────────────────────────
+function getOwner() { return document.getElementById('g-owner').value.trim() || 'fabricadenicho'; }
+function getRepo()  { return document.getElementById('g-repo').value.trim() || 'gota-que-cura'; }
+
+async function ghGet(path) {
+  const r = await fetch(`https://api.github.com/repos/${getOwner()}/${getRepo()}/contents/${path}`, {
+    headers: { 'Authorization': 'token ' + githubToken, 'Accept': 'application/vnd.github.v3+json' }
+  });
+  if (!r.ok) throw new Error('GitHub API: ' + r.status + ' ' + (await r.text()));
+  return r.json();
+}
+
+async function ghPut(path, contentBase64, message, sha) {
+  const body = { message, content: contentBase64 };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${getOwner()}/${getRepo()}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'token ' + githubToken,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error('GitHub API: ' + r.status + ' ' + (await r.text()));
+  return r.json();
+}
+
+function toBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+
+// ─── CONFIG ───────────────────────────────────────────────────────
+async function loadConfig() {
+  try {
+    const file = await ghGet('config.json');
+    cfg = JSON.parse(atob(file.content.replace(/\n/g, '')));
+  } catch(e) {
+    cfg = {};
+  }
+  populateForms();
+}
+
+function populateForms() {
+  setVal('g-whatsapp', cfg.whatsapp || '');
+  setVal('t-badge',   cfg.hero_badge || '');
+  setVal('t-title1',  cfg.hero_title_1 || '');
+  setVal('t-title2',  cfg.hero_title_2 || '');
+  setVal('t-subtitle',cfg.hero_subtitle || '');
+  renderPriceEditor(cfg.prices || defaultPrices());
+  renderTestimonialEditor(cfg.testimonials || defaultTestimonials());
+  updateWppPreview();
+
+  if (cfg.product_image) {
+    document.getElementById('current-product-img').innerHTML =
+      '<p style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Imagem atual do produto:</p>' +
+      '<img src="' + cfg.product_image + '" style="max-height:120px;border-radius:8px;border:1px solid var(--border)">';
+  }
+}
+
+function collectConfig() {
+  cfg.whatsapp     = getVal('g-whatsapp');
+  cfg.hero_badge   = getVal('t-badge');
+  cfg.hero_title_1 = getVal('t-title1');
+  cfg.hero_title_2 = getVal('t-title2');
+  cfg.hero_subtitle= getVal('t-subtitle');
+  cfg.prices = collectPrices();
+  cfg.testimonials = collectTestimonials();
+}
+
+async function publishChanges() {
+  const btn = document.getElementById('btn-publish');
+  const label = document.getElementById('publish-label');
+  btn.disabled = true;
+  label.innerHTML = '<span class="spinner"></span> Publicando...';
+
+  try {
+    collectConfig();
+    let sha;
+    try { const f = await ghGet('config.json'); sha = f.sha; } catch(e) {}
+    const content = toBase64(JSON.stringify(cfg, null, 2));
+    await ghPut('config.json', content, 'Atualiza config via painel admin', sha);
+    showToast('✅ Publicado com sucesso! O site atualiza em ~1 minuto.', 'success');
+  } catch(e) {
+    console.error(e);
+    showToast('❌ Erro: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    label.textContent = '🚀 Publicar';
+  }
+}
+
+// ─── PRICE EDITOR ────────────────────────────────────────────────
+function defaultPrices() {
+  return [
+    { name:'Frasco Padrão', volume:'20ml', price:'49,90', desc:'Volume 20ml — ideal para experimentar', featured:false },
+    { name:'Kit Tratamento', volume:'60ml', price:'119,90', desc:'Volume 60ml — economia + resultado garantido', featured:true },
+    { name:'Kit Família', volume:'3 frascos 20ml', price:'199,90', desc:'3 frascos 20ml — sempre ter em casa', featured:false }
+  ];
+}
+
+function renderPriceEditor(prices) {
+  const el = document.getElementById('price-editor');
+  el.innerHTML = prices.map((p, i) => `
+    <div class="price-editor-card">
+      <h4>Produto ${i+1}</h4>
+      <div class="toggle-row">
+        <label>Destaque "Mais Vendido"</label>
+        <label class="toggle"><input type="checkbox" id="p-featured-${i}" ${p.featured ? 'checked' : ''} /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="form-group"><label>Nome</label><input type="text" id="p-name-${i}" value="${esc(p.name)}" /></div>
+      <div class="form-group"><label>Volume</label><input type="text" id="p-vol-${i}" value="${esc(p.volume)}" /></div>
+      <div class="form-group"><label>Preço (ex: 49,90)</label><input type="text" id="p-price-${i}" value="${esc(p.price)}" placeholder="49,90" /></div>
+      <div class="form-group"><label>Descrição</label><input type="text" id="p-desc-${i}" value="${esc(p.desc)}" /></div>
+    </div>
+  `).join('');
+}
+
+function collectPrices() {
+  const count = document.querySelectorAll('[id^="p-name-"]').length;
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({
+      name: getVal('p-name-' + i),
+      volume: getVal('p-vol-' + i),
+      price: getVal('p-price-' + i),
+      desc: getVal('p-desc-' + i),
+      featured: document.getElementById('p-featured-' + i).checked
+    });
+  }
+  return arr;
+}
+
+// ─── TESTIMONIAL EDITOR ──────────────────────────────────────────
+function defaultTestimonials() {
+  return [
+    { text:'Tinha uma ferida no tornozelo há quase 2 anos que nenhum médico conseguia curar. Em 3 semanas usando Gota Que Cura já vi uma melhora enorme!', name:'Maria das Graças', city:'Recife, PE' },
+    { text:'Meu pai tem diabetes e uma ferida no pé que estava infectada. Usamos Gota Que Cura e em poucos dias a infecção cedeu. Produto maravilhoso!', name:'João Paulo', city:'Fortaleza, CE' },
+    { text:'Produto sensacional! Natural e funcionou de verdade. Minha ferida estava aberta há meses e cicatrizou em menos de um mês.', name:'Ana Lúcia', city:'Salvador, BA' }
+  ];
+}
+
+function renderTestimonialEditor(testimonials) {
+  const el = document.getElementById('testimonial-editor');
+  el.innerHTML = testimonials.map((t, i) => `
+    <div class="t-card">
+      <h4>⭐ Depoimento ${i+1}</h4>
+      <div class="form-group"><label>Texto do depoimento</label><textarea id="t-text-${i}" rows="3">${esc(t.text)}</textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Nome da pessoa</label><input type="text" id="t-name-${i}" value="${esc(t.name)}" /></div>
+        <div class="form-group"><label>Cidade / Estado</label><input type="text" id="t-city-${i}" value="${esc(t.city)}" /></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function collectTestimonials() {
+  const count = document.querySelectorAll('[id^="t-text-"]').length;
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({ text: getVal('t-text-' + i), name: getVal('t-name-' + i), city: getVal('t-city-' + i) });
+  }
+  return arr;
+}
+
+// ─── IMAGES ───────────────────────────────────────────────────────
+function previewImage(input, previewId, nameId) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById(previewId);
+  const nameEl = document.getElementById(nameId);
+  const reader = new FileReader();
+  reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+  reader.readAsDataURL(file);
+  if (nameEl) nameEl.textContent = '📎 ' + file.name + ' (' + (file.size/1024).toFixed(0) + ' KB)';
+}
+
+async function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadProductImage() {
+  const fileInput = document.getElementById('product-img-file');
+  if (!fileInput.files[0]) { showToast('Selecione uma imagem primeiro.', 'error'); return; }
+  const file = fileInput.files[0];
+  if (file.size > 5 * 1024 * 1024) { showToast('Imagem muito grande. Máximo 5MB.', 'error'); return; }
+
+  showToast('⬆️ Enviando imagem...');
+  try {
+    const base64 = await fileToBase64(file);
+    const filename = 'images/produto-' + Date.now() + '.' + file.name.split('.').pop();
+    await ghPut(filename, base64, 'Upload imagem do produto');
+
+    const imageUrl = 'https://' + getOwner() + '.github.io/' + getRepo() + '/' + filename;
+    cfg.product_image = imageUrl;
+
+    let sha;
+    try { const f = await ghGet('config.json'); sha = f.sha; } catch(e) {}
+    await ghPut('config.json', toBase64(JSON.stringify(cfg, null, 2)), 'Atualiza imagem do produto', sha);
+
+    document.getElementById('current-product-img').innerHTML =
+      '<p style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Imagem enviada com sucesso:</p>' +
+      '<img src="' + imageUrl + '" style="max-height:120px;border-radius:8px;border:1px solid var(--border)">';
+    showToast('✅ Imagem do produto publicada!', 'success');
+  } catch(e) {
+    showToast('❌ Erro ao enviar: ' + e.message, 'error');
+  }
+}
+
+async function loadGallery() {
+  const gallery = document.getElementById('image-gallery');
+  gallery.innerHTML = '<p style="font-size:.82rem;color:var(--muted)">Carregando...</p>';
+  try {
+    const files = await ghGet('images');
+    if (!Array.isArray(files) || files.length === 0) {
+      gallery.innerHTML = '<p style="font-size:.82rem;color:var(--muted)">Nenhuma imagem encontrada.</p>';
+      return;
+    }
+    gallery.innerHTML = files.map(f => {
+      const url = 'https://' + getOwner() + '.github.io/' + getRepo() + '/images/' + f.name;
+      return '<div class="img-thumb">'
+        + '<img src="' + url + '" alt="' + f.name + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'100\\\' height=\\\'100\\\'><rect width=\\\'100\\\' height=\\\'100\\\' fill=\\\'%23eee\\\'/><text x=\\\'50%25\\\' y=\\\'50%25\\\' dominant-baseline=\\\'middle\\\' text-anchor=\\\'middle\\\' fill=\\\'%23999\\\'>img</text></svg>\'" />'
+        + '<div class="img-name">' + f.name + '</div>'
+        + '<button class="btn-use" onclick="useAsProduct(\'' + url + '\')">Usar como Produto</button>'
+        + '</div>';
+    }).join('');
+  } catch(e) {
+    gallery.innerHTML = '<p style="font-size:.82rem;color:var(--danger)">Erro ao carregar: ' + e.message + '</p>';
+  }
+}
+
+async function useAsProduct(url) {
+  cfg.product_image = url;
+  let sha;
+  try { const f = await ghGet('config.json'); sha = f.sha; } catch(e) {}
+  try {
+    await ghPut('config.json', toBase64(JSON.stringify(cfg, null, 2)), 'Atualiza imagem do produto', sha);
+    document.getElementById('current-product-img').innerHTML =
+      '<p style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Imagem atual do produto:</p>' +
+      '<img src="' + url + '" style="max-height:120px;border-radius:8px;border:1px solid var(--border)">';
+    showToast('✅ Imagem do produto atualizada!', 'success');
+  } catch(e) {
+    showToast('❌ Erro: ' + e.message, 'error');
+  }
+}
+
+// ─── CONFIG / SETTINGS ────────────────────────────────────────────
+async function changePassword() {
+  const np = document.getElementById('cfg-new-password').value;
+  const cp = document.getElementById('cfg-confirm-password').value;
+  if (!np) { showToast('Digite a nova senha.', 'error'); return; }
+  if (np !== cp) { showToast('As senhas não conferem.', 'error'); return; }
+  if (np.length < 6) { showToast('A senha deve ter pelo menos 6 caracteres.', 'error'); return; }
+  localStorage.setItem('adminPasswordHash', await sha256(np));
+  document.getElementById('cfg-new-password').value = '';
+  document.getElementById('cfg-confirm-password').value = '';
+  showToast('✅ Senha alterada com sucesso!', 'success');
+}
+
+function updateToken() {
+  const t = document.getElementById('cfg-token').value.trim();
+  if (!t) { showToast('Token não pode estar vazio.', 'error'); return; }
+  githubToken = t;
+  sessionStorage.setItem('ghToken', t);
+  showToast('✅ Token atualizado!', 'success');
+}
+
+function toggleTokenVis() {
+  const inp = document.getElementById('cfg-token');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────
+function getVal(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+function esc(str) { return String(str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function updateWppPreview() {
+  const num = getVal('g-whatsapp').replace(/\D/g, '');
+  const el = document.getElementById('wpp-preview');
+  if (!el) return;
+  if (num.length >= 10) {
+    el.innerHTML = '✅ Link gerado: <strong>https://wa.me/' + num + '</strong>';
+  } else {
+    el.textContent = num ? '⚠️ Número incompleto (mínimo 10 dígitos com DDI e DDD).' : '';
+  }
+}
+</script>
+</body>
+</html>

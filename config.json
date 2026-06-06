@@ -1,0 +1,48 @@
+{
+  "whatsapp": "5500000000000",
+  "hero_badge": "⚠️ Ferida que não cicatriza?",
+  "hero_title_1": "Chega de ferida aberta que não cura.",
+  "hero_title_2": "A solução natural chegou.",
+  "hero_subtitle": "Gota Que Cura é o cicatrizante fitoterápico com Jucá e Própolis de Abelhas Nativas — ação antibacteriana, anti-inflamatória e antifúngica em uma única gota.",
+  "prices": [
+    {
+      "name": "Frasco Padrão",
+      "volume": "20ml",
+      "price": "49,90",
+      "desc": "Volume 20ml — ideal para experimentar",
+      "featured": false
+    },
+    {
+      "name": "Kit Tratamento",
+      "volume": "60ml",
+      "price": "119,90",
+      "desc": "Volume 60ml — economia + resultado garantido",
+      "featured": true
+    },
+    {
+      "name": "Kit Família",
+      "volume": "3 frascos 20ml",
+      "price": "199,90",
+      "desc": "3 frascos 20ml — sempre ter em casa",
+      "featured": false
+    }
+  ],
+  "testimonials": [
+    {
+      "text": "Tinha uma ferida no tornozelo há quase 2 anos que nenhum médico conseguia curar. Em 3 semanas usando Gota Que Cura já vi uma melhora enorme. Indico para todo mundo!",
+      "name": "Maria das Graças",
+      "city": "Recife, PE"
+    },
+    {
+      "text": "Meu pai tem diabetes e uma ferida no pé que estava infectada. Usamos Gota Que Cura e em poucos dias a infecção cedeu e começou a cicatrizar. Produto maravilhoso!",
+      "name": "João Paulo",
+      "city": "Fortaleza, CE"
+    },
+    {
+      "text": "Produto sensacional! Simples de usar, natural e funcionou de verdade. Minha ferida estava aberta há meses e cicatrizou em menos de um mês. Comprei mais 2 frascos!",
+      "name": "Ana Lúcia",
+      "city": "Salvador, BA"
+    }
+  ],
+  "product_image": ""
+}
