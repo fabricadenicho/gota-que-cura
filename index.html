@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gota Que Cura – Cicatrizante Natural 100% Natural</title>
+  <meta name="description" content="Gota Que Cura: produto fitoterápico indicado para cicatrização de feridas infeccionadas. Jucá + Própolis de Abelhas Nativas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #1a5c1a;
+      --green-mid:  #2e8b2e;
+      --green-light:#4caf50;
+      --gold:       #c8952a;
+      --gold-light: #e8b84b;
+      --red-pain:   #c0392b;
+      --bg-cream:   #f9f5ee;
+      --text-dark:  #1a1a1a;
+      --text-gray:  #555;
+      --wpp:        #25d366;
+      --wpp-dark:   #128c3e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; color: var(--text-dark); background: #fff; overflow-x: hidden; }
+
+    /* ── UTILITY ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+    .btn-wpp {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--wpp); color: #fff; font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 1.1rem; padding: 18px 36px; border-radius: 50px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(37,211,102,.45);
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-wpp:hover { background: var(--wpp-dark); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(37,211,102,.55); }
+    .btn-wpp svg { width: 26px; height: 26px; flex-shrink: 0; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--green-dark); color: #fff;
+      text-align: center; padding: 10px 20px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .85rem;
+      letter-spacing: .5px;
+    }
+    .topbar span { color: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d2010 100%);
+      padding: 60px 20px 70px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(76,175,80,.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 50%, rgba(192,57,43,.1) 0%, transparent 60%);
+    }
+    .hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; }
+
+    .badge-pain {
+      background: var(--red-pain); color: #fff; font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 4px; display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900; color: #fff;
+      font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.15; max-width: 780px;
+    }
+    .hero h1 em { color: var(--green-light); font-style: normal; }
+    .hero h1 strong { color: var(--gold-light); }
+
+    .hero-subtitle { color: #ccc; font-size: 1rem; max-width: 560px; line-height: 1.7; }
+
+    .before-after {
+      display: flex; gap: 20px; justify-content: center; align-items: stretch;
+      flex-wrap: wrap; width: 100%; max-width: 700px;
+    }
+    .ba-card {
+      flex: 1 1 260px; background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 16px;
+      padding: 24px 20px; text-align: center;
+    }
+    .ba-card.before { border-color: rgba(192,57,43,.4); }
+    .ba-card.after  { border-color: rgba(76,175,80,.4); }
+    .ba-icon { font-size: 3.5rem; margin-bottom: 10px; }
+    .ba-label { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .before .ba-label { color: var(--red-pain); }
+    .after  .ba-label { color: var(--green-light); }
+    .ba-text { color: #bbb; font-size: .9rem; line-height: 1.5; }
+
+    .hero-trust { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+    .trust-item { color: #aaa; font-size: .82rem; display: flex; align-items: center; gap: 6px; }
+    .trust-item span.icon { font-size: 1.1rem; }
+
+    /* ── PROBLEM ── */
+    .section-problem { background: var(--bg-cream); padding: 60px 20px; }
+    .section-problem h2 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(1.4rem, 4vw, 2.1rem);
+      text-align: center; margin-bottom: 14px; color: var(--red-pain);
+    }
+    .section-problem p { text-align: center; color: var(--text-gray); max-width: 600px; margin: 0 auto 36px; line-height: 1.7; }
+    .pain-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .pain-item {
+      background: #fff; border-left: 4px solid var(--red-pain); border-radius: 8px;
+      padding: 16px 18px; font-size: .9rem; line-height: 1.5; color: var(--text-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .pain-item strong { display: block; margin-bottom: 4px; }
+
+    /* ── SOLUTION ── */
+    .section-solution { background: #fff; padding: 60px 20px; }
+    .section-solution .heading {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.4rem, 4vw, 2.2rem); text-align: center; margin-bottom: 8px;
+    }
+    .section-solution .heading em { color: var(--green-dark); font-style: normal; }
+    .section-solution .subheading { text-align: center; color: var(--text-gray); max-width: 580px; margin: 0 auto 44px; line-height: 1.7; }
+
+    .product-showcase {
+      display: flex; gap: 40px; align-items: center; flex-wrap: wrap; justify-content: center;
+    }
+    .product-img-wrap {
+      flex: 0 0 auto; text-align: center;
+    }
+    .product-bottle {
+      width: 180px; height: 260px;
+      background: linear-gradient(160deg, var(--green-dark) 0%, #0a3b0a 100%);
+      border-radius: 20px 20px 28px 28px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.15);
+      position: relative; overflow: hidden;
+    }
+    .product-bottle::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 50px; height: 32px; background: var(--gold); border-radius: 0 0 12px 12px;
+    }
+    .product-bottle-label {
+      background: rgba(255,255,255,.95); width: 130px; padding: 12px 10px;
+      border-radius: 8px; text-align: center; margin-top: 18px;
+    }
+    .product-bottle-label .logo-text { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: .85rem; color: var(--green-dark); line-height: 1.2; }
+    .product-bottle-label .sub { font-size: .6rem; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .product-bottle-label .vol { font-size: .65rem; color: #777; margin-top: 4px; }
+    .product-glow { width: 180px; height: 30px; background: radial-gradient(ellipse, rgba(76,175,80,.4) 0%, transparent 70%); margin: -6px auto 0; }
+
+    .product-benefits { flex: 1 1 300px; }
+    .benefit-item { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+    .benefit-icon {
+      width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 1.4rem; color: #fff;
+    }
+    .benefit-text h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: 3px; color: var(--green-dark); }
+    .benefit-text p { font-size: .85rem; color: var(--text-gray); line-height: 1.5; }
+
+    /* ── INGREDIENTS ── */
+    .section-ingredients { background: linear-gradient(180deg, #f0f7f0 0%, var(--bg-cream) 100%); padding: 60px 20px; }
+    .section-ingredients h2 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.4rem, 4vw, 2rem); text-align: center; margin-bottom: 8px; color: var(--green-dark);
+    }
+    .section-ingredients p.lead { text-align: center; color: var(--text-gray); max-width: 560px; margin: 0 auto 40px; line-height: 1.7; }
+    .ingredients-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .ing-card {
+      background: #fff; border-radius: 16px; padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07); border-top: 4px solid var(--green-mid);
+    }
+    .ing-card.propolis { border-top-color: var(--gold); }
+    .ing-emoji { font-size: 2.8rem; margin-bottom: 12px; }
+    .ing-card h3 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--green-dark); margin-bottom: 8px; }
+    .ing-card.propolis h3 { color: var(--gold); }
+    .ing-card p { font-size: .88rem; color: var(--text-gray); line-height: 1.6; margin-bottom: 14px; }
+    .ing-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ing-tag {
+      background: #e8f5e9; color: var(--green-dark); font-size: .72rem;
+      font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .ing-card.propolis .ing-tag { background: #fff8e1; color: #7a5c00; }
+
+    /* ── HOW TO USE ── */
+    .section-howto { background: #fff; padding: 60px 20px; }
+    .section-howto h2 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.4rem, 4vw, 2rem); text-align: center; margin-bottom: 36px; color: var(--green-dark);
+    }
+    .steps { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .step {
+      flex: 1 1 200px; max-width: 240px; text-align: center;
+      background: linear-gradient(160deg, #e8f5e9, #f0fff0); border-radius: 16px;
+      padding: 28px 20px; box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      position: relative;
+    }
+    .step-num {
+      width: 36px; height: 36px; background: var(--green-dark); color: #fff;
+      border-radius: 50%; font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .step-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .step h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .9rem; color: var(--green-dark); margin-bottom: 6px; }
+    .step p { font-size: .82rem; color: var(--text-gray); line-height: 1.5; }
+    .step-arrow { color: var(--green-mid); font-size: 1.5rem; align-self: center; }
+
+    .warning-box {
+      background: #fff3cd; border: 1px solid #ffc107; border-radius: 12px;
+      padding: 16px 20px; max-width: 600px; margin: 32px auto 0;
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: .88rem; color: #7a5c00; line-height: 1.5;
+    }
+    .warning-box .wi { font-size: 1.4rem; flex-shrink: 0; }
+
+    /* ── TESTIMONIALS ── */
+    .section-testimonials { background: var(--bg-cream); padding: 60px 20px; }
+    .section-testimonials h2 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-size: clamp(1.4rem, 4vw, 2rem); text-align: center; margin-bottom: 36px; color: var(--green-dark);
+    }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .testimonial {
+      background: #fff; border-radius: 14px; padding: 24px 20px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.07);
+    }
+    .stars { color: #f5a623; font-size: 1rem; margin-bottom: 10px; }
+    .testimonial p { font-size: .9rem; color: var(--text-dark); line-height: 1.6; margin-bottom: 14px; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: 10px; }
+    .reviewer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; color: #fff; font-size: 1rem;
+    }
+    .reviewer-info strong { font-size: .85rem; display: block; font-family: 'Montserrat', sans-serif; }
+    .reviewer-info span { font-size: .75rem; color: var(--text-gray); }
+
+    /* ── PRICING / CTA ── */
+    .section-cta {
+      background: linear-gradient(160deg, #0d2010 0%, #1a3a1a 100%);
+      padding: 70px 20px; text-align: center;
+    }
+    .section-cta h2 {
+      font-family: 'Montserrat', sans-serif; font-weight: 900; color: #fff;
+      font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 10px;
+    }
+    .section-cta h2 em { color: var(--gold-light); font-style: normal; }
+    .section-cta p { color: #aaa; max-width: 500px; margin: 0 auto 36px; line-height: 1.7; }
+
+    .pricing-cards { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .price-card {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px; padding: 28px 24px; min-width: 200px; text-align: center;
+      transition: transform .2s, border-color .2s;
+    }
+    .price-card:hover { transform: translateY(-4px); border-color: var(--gold-light); }
+    .price-card.featured {
+      border-color: var(--gold); background: rgba(200,149,42,.12);
+      position: relative;
+    }
+    .price-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #fff; font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: .7rem; letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px;
+    }
+    .price-vol { color: #aaa; font-size: .82rem; margin-bottom: 8px; }
+    .price-amount { font-family: 'Montserrat', sans-serif; font-weight: 900; color: #fff; font-size: 2rem; }
+    .price-amount sup { font-size: 1rem; vertical-align: super; }
+    .price-desc { color: #888; font-size: .78rem; margin-top: 6px; }
+
+    .cta-actions { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .cta-guarantee { color: #888; font-size: .8rem; }
+    .cta-guarantee span { color: var(--green-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0a0a; color: #555; text-align: center;
+      padding: 28px 20px; font-size: .78rem; line-height: 1.7;
+    }
+    footer strong { color: #777; }
+
+    /* ── STICKY WPP ── */
+    .sticky-wpp {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sticky-wpp-btn {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--wpp); color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(37,211,102,.5);
+      text-decoration: none;
+      animation: pulse 2s infinite;
+    }
+    .sticky-wpp-btn svg { width: 30px; height: 30px; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,.5); }
+      50% { box-shadow: 0 6px 30px rgba(37,211,102,.8), 0 0 0 8px rgba(37,211,102,.15); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .before-after { flex-direction: column; }
+      .ba-card { flex: none; }
+      .product-showcase { flex-direction: column; align-items: center; }
+      .steps { flex-direction: column; align-items: center; }
+      .step { max-width: 100%; }
+      .step-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  🌿 Produto 100% Natural &nbsp;|&nbsp; <span>Frete Grátis para todo Brasil</span> &nbsp;|&nbsp; Compra 100% Segura 🔒
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner container">
+    <span class="badge-pain">⚠️ Ferida que não cicatriza?</span>
+
+    <h1>
+      Chega de <em>ferida aberta</em> que não cura.<br>
+      <strong>A solução natural chegou.</strong>
+    </h1>
+
+    <p class="hero-subtitle">
+      Gota Que Cura é o cicatrizante fitoterápico com Jucá e Própolis de Abelhas Nativas — ação antibacteriana, anti-inflamatória e antifúngica em uma única gota.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-card before">
+        <div class="ba-icon">🤕</div>
+        <div class="ba-label">Antes</div>
+        <div class="ba-text">Ferida infeccionada há meses ou anos sem cicatrizar, causando dor, odor e preocupação constante.</div>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-icon">✨</div>
+        <div class="ba-label">Com Gota Que Cura</div>
+        <div class="ba-text">Cicatrização acelerada, combate à infecção e alívio da dor — de forma natural e segura.</div>
+      </div>
+    </div>
+
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20comprar%20o%20Gota%20que%20Cura!" class="btn-wpp" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.858L.057 23.927l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.587-.493-5.095-1.353l-.365-.217-3.7.97.987-3.604-.238-.378A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Quero Pedir Agora pelo WhatsApp
+    </a>
+
+    <div class="hero-trust">
+      <div class="trust-item"><span class="icon">🌿</span> 100% Natural</div>
+      <div class="trust-item"><span class="icon">🔬</span> Fitoterápico</div>
+      <div class="trust-item"><span class="icon">🚚</span> Envio Rápido</div>
+      <div class="trust-item"><span class="icon">⭐</span> +500 clientes satisfeitos</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section-problem">
+  <div class="container">
+    <h2>Você se identifica com alguma dessas situações?</h2>
+    <p>Feridas crônicas que não cicatrizam são um problema sério e muitas vezes ignorado. Veja os sinais de alerta:</p>
+    <div class="pain-list">
+      <div class="pain-item"><strong>😣 Ferida há meses/anos</strong>Já tentou vários tratamentos e nada resolveu de vez?</div>
+      <div class="pain-item"><strong>🔴 Infecção persistente</strong>Vermelhidão, inchaço e secreção que simplesmente não param?</div>
+      <div class="pain-item"><strong>😰 Dor constante</strong>A dor interfere no seu dia a dia e no seu sono?</div>
+      <div class="pain-item"><strong>💊 Cansado de antibióticos</strong>Medicamentos que resolvem na hora mas o problema volta logo depois?</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="section-solution">
+  <div class="container">
+    <h2 class="heading">Conheça o <em>Gota Que Cura</em></h2>
+    <p class="subheading">Cicatrizante natural fitoterápico formulado especialmente para feridas infeccionadas de difícil cicatrização.</p>
+
+    <div class="product-showcase">
+      <div class="product-img-wrap">
+        <div class="product-bottle">
+          <div class="product-bottle-label">
+            <div class="logo-text">GOTA<br>QUE CURA</div>
+            <div class="sub">Cicatrizante Natural</div>
+            <div class="vol">Volume: 20ml</div>
+          </div>
+        </div>
+        <div class="product-glow"></div>
+      </div>
+
+      <div class="product-benefits">
+        <div class="benefit-item">
+          <div class="benefit-icon">🦠</div>
+          <div class="benefit-text">
+            <h4>Ação Antibacteriana Poderosa</h4>
+            <p>Combate as bactérias causadoras de infecção diretamente na ferida, acelerando o processo de cura.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🔥</div>
+          <div class="benefit-text">
+            <h4>Anti-inflamatório Natural</h4>
+            <p>Reduz a inflamação e a dor sem os efeitos colaterais dos medicamentos químicos.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🌱</div>
+          <div class="benefit-text">
+            <h4>Regeneração Celular</h4>
+            <p>Os flavonoides e cumarinas do Jucá estimulam a regeneração dos tecidos de forma natural.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🛡️</div>
+          <div class="benefit-text">
+            <h4>Antifúngico e Antiviral</h4>
+            <p>O própolis protege a ferida contra fungos e vírus, criando uma barreira protetora completa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section class="section-ingredients">
+  <div class="container">
+    <h2>Ingredientes Ativos da Fórmula</h2>
+    <p class="lead">Cada gota carrega o poder da natureza em dois ingredientes extraordinários, comprovados pela ciência.</p>
+    <div class="ingredients-grid">
+      <div class="ing-card">
+        <div class="ing-emoji">🌿</div>
+        <h3>Jucá</h3>
+        <p>Planta medicinal brasileira rica em <strong>cumarinas e flavonoides</strong>. Seu extrato age profundamente na ferida, combatendo a infecção e estimulando a regeneração natural dos tecidos.</p>
+        <div class="ing-tags">
+          <span class="ing-tag">Antioxidante</span>
+          <span class="ing-tag">Anti-inflamatório</span>
+          <span class="ing-tag">Anticoagulante</span>
+          <span class="ing-tag">Cicatrizante</span>
+        </div>
+      </div>
+      <div class="ing-card propolis">
+        <div class="ing-emoji">🍯</div>
+        <h3>Própolis de Abelhas Nativas</h3>
+        <p>O <strong>própolis brasileiro</strong> é reconhecido mundialmente pela sua ação antimicrobiana excepcional. As abelhas nativas produzem uma resina de altíssima qualidade e potência.</p>
+        <div class="ing-tags">
+          <span class="ing-tag">Antibacteriano</span>
+          <span class="ing-tag">Antiviral</span>
+          <span class="ing-tag">Antifúngico</span>
+          <span class="ing-tag">Anti-inflamatório</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section class="section-howto">
+  <div class="container">
+    <h2>Como Usar — Simples e Rápido</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">🧴</div>
+        <h4>Limpe a Ferida</h4>
+        <p>Lave cuidadosamente a ferida com soro fisiológico para remover impurezas e resíduos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">💧</div>
+        <h4>Aplique o Produto</h4>
+        <p>Aplique Gota Que Cura diretamente sobre o ferimento de forma uniforme.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">🔁</div>
+        <h4>Repita 3x ao Dia</h4>
+        <p>Para melhores resultados, repita o processo 3 vezes ao dia regularmente.</p>
+      </div>
+    </div>
+    <div class="warning-box">
+      <span class="wi">⚠️</span>
+      <span><strong>Atenção:</strong> Não usar em ferimentos pós-cirúrgicos, pois o produto contém álcool. Consulte seu médico em caso de feridas graves ou com evolução preocupante.</span>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section-testimonials">
+  <div class="container">
+    <h2>O Que Nossos Clientes Dizem</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Tinha uma ferida no tornozelo há quase 2 anos que nenhum médico conseguia curar. Em 3 semanas usando Gota Que Cura já vi uma melhora enorme. Indico para todo mundo!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">M</div>
+          <div class="reviewer-info"><strong>Maria das Graças</strong><span>Recife, PE</span></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Meu pai tem diabetes e uma ferida no pé que estava infectada. Usamos Gota Que Cura e em poucos dias a infecção cedeu e começou a cicatrizar. Produto maravilhoso!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">J</div>
+          <div class="reviewer-info"><strong>João Paulo</strong><span>Fortaleza, CE</span></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Produto sensacional! Simples de usar, natural e funcionou de verdade. Minha ferida estava aberta há meses e cicatrizou em menos de um mês. Comprei mais 2 frascos!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div class="reviewer-info"><strong>Ana Lúcia</strong><span>Salvador, BA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / PRICING -->
+<section class="section-cta" id="comprar">
+  <div class="container">
+    <h2>Comece Hoje a <em>Cicatrizar de Verdade</em></h2>
+    <p>Escolha sua opção e fale diretamente com nossa equipe pelo WhatsApp para efetuar o pedido com segurança.</p>
+
+    <div class="pricing-cards">
+      <div class="price-card">
+        <div class="price-vol">Frasco Padrão</div>
+        <div class="price-amount"><sup>R$</sup>49<sup>,90</sup></div>
+        <div class="price-desc">Volume 20ml — ideal para experimentar</div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">🔥 MAIS VENDIDO</div>
+        <div class="price-vol">Kit Tratamento</div>
+        <div class="price-amount"><sup>R$</sup>119<sup>,90</sup></div>
+        <div class="price-desc">Volume 60ml — economia + resultado garantido</div>
+      </div>
+      <div class="price-card">
+        <div class="price-vol">Kit Família</div>
+        <div class="price-amount"><sup>R$</sup>199<sup>,90</sup></div>
+        <div class="price-desc">3 frascos 20ml — sempre ter em casa</div>
+      </div>
+    </div>
+
+    <div class="cta-actions">
+      <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20comprar%20o%20Gota%20que%20Cura!%20Pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" class="btn-wpp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.858L.057 23.927l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.587-.493-5.095-1.353l-.365-.217-3.7.97.987-3.604-.238-.378A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Fazer Pedido pelo WhatsApp Agora
+      </a>
+      <span class="cta-guarantee">🔒 Compra <span>100% segura</span> &nbsp;|&nbsp; 🚚 <span>Envio para todo o Brasil</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Gota Que Cura</strong> — Cicatrizante Natural Fitoterápico<br>
+  Este produto não substitui o acompanhamento médico. Consulte um profissional de saúde.<br>
+  © 2024 Gota Que Cura. Todos os direitos reservados.
+</footer>
+
+<!-- STICKY WHATSAPP -->
+<div class="sticky-wpp">
+  <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20Gota%20que%20Cura!" class="sticky-wpp-btn" target="_blank" rel="noopener" title="Fale pelo WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.858L.057 23.927l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.84 0-3.587-.493-5.095-1.353l-.365-.217-3.7.97.987-3.604-.238-.378A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+  </a>
+</div>
+
+</body>
+</html>
